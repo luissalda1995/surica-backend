@@ -1,0 +1,25 @@
+{
+  "name": "surica-backend",
+  "version": "0.0.0",
+  "description": "backend de surica",
+  "main": "app.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/luissalda1995/surica-backend.git"
+  },
+  "keywords": [
+    "backend"
+  ],
+  "author": "Luis Miguel Saldarriaga",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/luissalda1995/surica-backend/issues"
+  },
+  "homepage": "https://github.com/luissalda1995/surica-backend",
+  "dependencies": {
+    "express": "^4.13.4"
+  }
+}
