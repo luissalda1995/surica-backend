@@ -3,6 +3,7 @@ var express = require('express'),
     mongoose = require('mongoose'), //mongo connection
     bodyParser = require('body-parser'), //parses information from POST
     methodOverride = require('method-override'); //used to manipulate POST
+    Usuario = require('../model/usuario');
 
 //Any requests to this controller must pass through this 'use' function
 //Copy and pasted from method-override
@@ -16,13 +17,10 @@ router.use(methodOverride(function(req, res){
       }
 }))
 
-//build the REST operations at the base for blobs
-//this will be accessible from http://127.0.0.1:3000/blobs if the default route for / is left unchanged
 router.route('/')
     //GET all blobs
     .get(function(req, res, next) {
-        //retrieve all blobs from Monogo
-        mongoose.model('Usuario').find({}, function (err, usuarios) {
+        Usuario.find(function (err, usuarios) {
               if (err) {
                   return console.error(err);
               } else {
@@ -33,18 +31,17 @@ router.route('/')
               }     
         });
     })
-    //POST a new blob
-    .post(function(req, res) {
-        // Get values from POST request. These can be done through forms or REST calls. These rely on the "name" attributes for forms
-        var nombre = req.body.nombre;
-        var servicio = req.body.servicio;
-        var disponibilidad = req.body.disponibilidad;
 
-        mongoose.model('Usuario').create({
-            nombre : nombre,
-            servicio : servicio,
-            disponibilidad : disponibilidad
-        }, function (err, usuario) {
+    .post(function(req, res) {
+        var usuario = new Usuario();
+        // Get values from POST request. These can be done through forms or REST calls. These rely on the "name" attributes for forms
+        usuario.username = req.body.username;
+        usuario.nombre = req.body.nombre;
+        usuario.apellido = req.body.apellido;
+        usuario.servicio = req.body.servicio;
+        usuario.disponibilidad = req.body.disponibilidad;
+
+        usuario.save(function (err, usuario) {
               if (err) {
                   res.send("There was a problem adding the information to the database.");
               } else {
@@ -53,7 +50,7 @@ router.route('/')
                   res.json(usuario);
 
               }
-        })
+        });
     });
 
 // route middleware to validate :id
@@ -89,24 +86,11 @@ router.param('id', function(req, res, next, id) {
 
 router.route('/:id')
   .get(function(req, res) {
-    mongoose.model('Blob').findById(req.id, function (err, blob) {
+    Usuario.findById(req.id, function (err, blob) {
       if (err) {
         console.log('GET Error: There was a problem retrieving: ' + err);
       } else {
-        console.log('GET Retrieving ID: ' + blob._id);
-        var blobdob = blob.dob.toISOString();
-        blobdob = blobdob.substring(0, blobdob.indexOf('T'))
-        res.format({
-          html: function(){
-              res.render('blobs/show', {
-                "blobdob" : blobdob,
-                "blob" : blob
-              });
-          },
-          json: function(){
-              res.json(blob);
-          }
-        });
+        res.json(blob);
       }
     });
   });
