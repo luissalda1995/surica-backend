@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var Util = require('../model/util');
 
-router.route('/configuracion')
+router.route('/categorias')
 	.get(function(req, res, next){
 		Util.findOne({ tipo : 'categorias' }, function(err, categorias){
 			if(err) {
