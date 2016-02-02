@@ -1,6 +1,5 @@
 var express = require('express'),
     router = express.Router(),
-    mongoose = require('mongoose'), //mongo connection
     bodyParser = require('body-parser'), //parses information from POST
     methodOverride = require('method-override'); //used to manipulate POST
     Usuario = require('../model/usuario');
@@ -35,11 +34,11 @@ router.route('/')
     .post(function(req, res) {
         var usuario = new Usuario();
         // Get values from POST request. These can be done through forms or REST calls. These rely on the "name" attributes for forms
-        usuario.username = req.body.username;
-        usuario.nombre = req.body.nombre;
-        usuario.apellido = req.body.apellido;
-        usuario.servicio = req.body.servicio;
-        usuario.disponibilidad = req.body.disponibilidad;
+        usuario.username = req.body.usuario.username;
+        usuario.nombre = req.body.usuario.nombre;
+        usuario.apellido = req.body.usuario.apellido;
+        usuario.servicio = req.body.usuario.servicio;
+        usuario.disponibilidad = req.body.usuario.disponibilidad;
 
         usuario.save(function (err, usuario) {
               if (err) {
