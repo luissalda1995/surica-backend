@@ -4,7 +4,8 @@ var express = require('express'),
     router = express.Router(),
     bodyParser = require('body-parser'), //parses information from POST
     methodOverride = require('method-override'), //used to manipulate POST
-    usuarios = require('../controllers/usuarios.controller.js');
+    usuarios = require('../controllers/usuarios.controller.js'),
+    passport = require('passport');
 
 //Any requests to this controller must pass through this 'use' function
 //Copy and pasted from method-override
@@ -24,8 +25,8 @@ router.route('/')
     .post(usuarios.registrarUsuario);
 
 router.route('/login')
-  .get(usuarios.verificarLogin);
-  //.post(usuarios.LogIn);
+  .get(usuarios.verificarLogin)
+  .post(passport.authenticate('login'));
 
 router.route('/logout')
   .post(usuarios.logOut);

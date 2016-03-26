@@ -35,13 +35,13 @@ var UsuarioSchema = new Schema({
 });
 
 //Usar un middleware pre-save para hash la contraseña
-UsuarioSchema.pre('save', function(next) {
+/*UsuarioSchema.pre('save', function(next) {
   if (this.password) {
     this.password = this.hashPassword(this.password);
   }
 
   next();
-});
+});*/
 
 //Crear un método instancia para hashing una contraseña
 UsuarioSchema.methods.hashPassword = function(password) {
@@ -49,8 +49,8 @@ UsuarioSchema.methods.hashPassword = function(password) {
 };
 
 //Crear un método instancia para autentificar usuario
-UsuarioSchema.methods.authenticate = function(password) {
-  return this.password === this.hashPassword(password);
+UsuarioSchema.methods.validarPassword = function(password) {
+  return password === this.password;
 };
 
 UsuarioSchema.set('toJSON', {

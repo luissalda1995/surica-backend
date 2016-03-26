@@ -4,7 +4,7 @@ var passport = require('passport'),
 
 module.exports = function(){
 
-	passport.use('login', new LocalStrategy(function(req, username, password, done) { 
+	passport.use('login', new LocalStrategy(function(username, password, done) { 
             // check in mongo if a usuario with username exists or not
             Usuario.findOne({ 'username' :  username }, 
                 function(err, usuario) {
@@ -26,8 +26,9 @@ module.exports = function(){
                             mensaje: 'Contraseña invalida'
                         }); // redirect back to login page
                     }
+                    console.log('Logeado');
                     // Usuario and password both match, return usuario from done method
-                    // which will be treated like success
+                    // which will be treated like successs
                     return done(null, usuario);
                 }
             );

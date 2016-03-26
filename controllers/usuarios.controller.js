@@ -34,10 +34,6 @@ exports.registrarUsuario = function(req, res, next) {
     });
 };
 
-exports.logIn = function(){
-	passport.authenticate('login');
-};
-
 exports.logOut = function(req, res){
 	req.logOut(); 
 	res.send(200);
