@@ -1,16 +1,8 @@
-var express = require('express');
-var router = express.Router();
-var Util = require('../model/util');
+var express = require('express'),
+	router = express.Router(),
+	utils = require('../controllers/utils.controller.js');
 
 router.route('/categorias')
-	.get(function(req, res, next){
-		Util.findOne({ tipo : 'categorias' }, function(err, categorias){
-			if(err) {
-				return console.error(err);
-			} else{
-				res.json(categorias);
-			}
-		})
-	});
+	.get(utils.getCategorias);
 
 module.exports = router;

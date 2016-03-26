@@ -1,13 +1,10 @@
-var LocalStrategy   = require('passport-local').Strategy;
-var Usuario = require('../../model/usuario');
-var bCrypt = require('bcrypt-nodejs');
+var passport = require('passport'),
+    LocalStrategy   = require('passport-local').Strategy,
+    Usuario = require('mongoose').model('Usuario');
 
-module.exports = function(passport){
+module.exports = function(){
 
-	passport.use('login', new LocalStrategy({
-            passReqToCallback : true
-        },
-        function(req, username, password, done) { 
+	passport.use('login', new LocalStrategy(function(req, username, password, done) { 
             // check in mongo if a usuario with username exists or not
             Usuario.findOne({ 'username' :  username }, 
                 function(err, usuario) {
@@ -18,12 +15,16 @@ module.exports = function(passport){
                     // Username does not exist, log the error and redirect back
                     if (!usuario){
                         console.log('Usuario Not Found with username '+username);
-                        return done(null, false);                 
+                        return done(null, false,{
+                            mensaje: 'Usuario no registrado'
+                        });                 
                     }
                     // Usuario exists but wrong password, log the error 
-                    if (!isValidPassword(usuario, password)){
+                    if (!usuario.validarPassword(password)){
                         console.log('Invalid Password');
-                        return done(null, false); // redirect back to login page
+                        return done(null, false, {
+                            mensaje: 'Contraseña invalida'
+                        }); // redirect back to login page
                     }
                     // Usuario and password both match, return usuario from done method
                     // which will be treated like success
@@ -34,9 +35,4 @@ module.exports = function(passport){
         })
     );
 
-
-    var isValidPassword = function(usuario, password){
-        return bCrypt.compareSync(password, usuario.password);
-    };
-    
 };
