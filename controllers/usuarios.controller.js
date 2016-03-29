@@ -1,7 +1,7 @@
 'use strict';
 
 var Usuario = require('mongoose').model('Usuario'),
-	passport = require('passport');
+    passport = require('passport');
 
 exports.getUsuarios = function(req, res, next) {
     Usuario.find(function (err, usuarios) {
@@ -32,6 +32,25 @@ exports.registrarUsuario = function(req, res, next) {
         return res.json(usuario);
       });
     });
+};
+
+exports.logIn = function(req, res, next){
+  passport.authenticate('login', function(err, usuario, info){
+    if (err) {
+      return next(err);
+    }
+    if (!usuario) {
+        return res.json(403, {
+            message: "no user found"
+        });
+    }
+    req.logIn(usuario, function (err) {
+      if (err) {
+        return next(err);
+      }
+      return res.json(usuario);
+    });
+  })(req, res, next);
 };
 
 exports.logOut = function(req, res){

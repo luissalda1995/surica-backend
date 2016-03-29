@@ -26,7 +26,7 @@ router.route('/')
 
 router.route('/login')
   .get(usuarios.verificarLogin)
-  .post(passport.authenticate('login'));
+  .post(usuarios.logIn);
 
 router.route('/logout')
   .post(usuarios.logOut);

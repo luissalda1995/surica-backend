@@ -10,8 +10,9 @@ module.exports = function(){
                 function(err, usuario) {
                     console.log('usuario' + usuario);
                     // In case of any error, return using the done method
-                    if (err)
+                    if (err){
                         return done(err);
+                    }
                     // Username does not exist, log the error and redirect back
                     if (!usuario){
                         console.log('Usuario Not Found with username '+username);

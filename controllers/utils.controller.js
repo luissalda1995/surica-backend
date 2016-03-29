@@ -9,5 +9,5 @@ exports.getCategorias = function(req, res, next){
 		} else{
 			res.json(categorias);
 		}
-	})
+	});
 }
