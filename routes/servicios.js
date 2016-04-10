@@ -20,9 +20,11 @@ router.route('/')
   .post(servicios.crearServicio);
 
 router.route('/cliente/:usuario')
-	.get(servicios.getServiciosCliente);
+	.get(servicios.getServiciosCliente)
+  .post(servicios.adicionarProveedor);
 
 router.route('/proveedor/:usuario')
-  .get(servicios.getServiciosProveedor);  
+  .get(servicios.getServiciosProveedor)
+  .post(servicios.adicionarCliente);  
 
 module.exports = router;

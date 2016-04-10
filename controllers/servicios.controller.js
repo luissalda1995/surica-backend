@@ -20,11 +20,47 @@ exports.getServiciosCliente = function(req, res){
 };
 
 exports.getServiciosProveedor = function(req, res){
-	Servicio.findOne({usuario: req.params.usuario}, function(err, usuarios){
+	Servicio.findOne({usuario: req.params.usuario}, function(err, servicio){
 	          if (err) {
 	              return next(err);
 	          } else {
-	              res.json(usuarios);
+	              res.json(servicio.proveedor);
+	          }       
+	});
+};
+
+exports.adicionarProveedor = function(req, res){
+	var proveedor = req.body.proveedor;	
+	Servicio.findOne({usuario: req.params.usuario}, function(err, servicio){
+	          if (err) {
+	              return next(err);
+	          } else {
+	              servicio.cliente.push({proveedor: proveedor.username, tipoServicio: proveedor.servicio});
+	              servicio.save(function(err){
+				      if (err) {
+				      	console.log(err);
+				        return next(err);
+				      }
+				      return res.json(proveedor);
+	              });
+	          }       
+	});
+};
+
+exports.adicionarCliente = function(req, res){
+	var cliente = req.body.cliente;
+	Servicio.findOne({usuario: req.params.usuario}, function(err, servicio){
+	          if (err) {
+	              return next(err);
+	          } else {
+	              servicio.proveedor.push({cliente: cliente.username, tipoServicio: cliente.servicio});
+	              servicio.save(function(err){
+				      if (err) {
+				      	console.log(err);
+				        return next(err);
+				      }
+				      return res.json(proveedor);
+	              });
 	          }       
 	});
 };

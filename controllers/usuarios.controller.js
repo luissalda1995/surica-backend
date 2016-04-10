@@ -27,7 +27,7 @@ exports.registrarUsuario = function(req, res, next) {
         // Si ocurre un error de login moverse al siguiente middleware
         if (err) {
         	return next(err);
-		}
+		    }
         // Redireccionar al usuario de vuelta a la página de la aplicación principal
         return res.json(usuario);
       });
