@@ -59,7 +59,7 @@ exports.adicionarCliente = function(req, res){
 				      	console.log(err);
 				        return next(err);
 				      }
-				      return res.json(proveedor);
+				      return res.json(cliente);
 	              });
 	          }       
 	});
