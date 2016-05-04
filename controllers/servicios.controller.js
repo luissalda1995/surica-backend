@@ -4,9 +4,17 @@ var Servicio = require('mongoose').model('Servicio');
 
 exports.crearServicio = function(req,res){
 	var servicio = new Servicio();
-	servicio.usuario = req.body.servicio.usuario;
+	servicio.usuario = req.params.usuario;
 	servicio.cliente = [];
-	servicio.proveedor = [];    
+	servicio.proveedor = [];  
+	servicio.save(function(err) {
+      if (err) {
+      	console.log(err);
+        return next(err);
+      }
+      return res.json(servicio);
+
+    });	  
 };
 
 exports.getServiciosCliente = function(req, res){
@@ -61,6 +69,56 @@ exports.adicionarCliente = function(req, res){
 				      }
 				      return res.json(cliente);
 	              });
+	          }       
+	});
+};
+
+exports.cambiarEstadoCliente = function(req, res){
+	var informacionServicio = req.body.informacionServicio;
+	Servicio.findOne({usuario: req.params.usuario}, function(err, servicio){
+	          if (err) {
+	              return next(err);
+	          } else {
+	          		var cliente;
+	          		for(var x in servicio.proveedor){
+	          			if(servicio.proveedor[x].cliente == req.body.cliente){
+	          				cliente = servicio.proveedor[x];
+	          			}
+	          		}
+	          	  	cliente.estado = informacionServicio.estado;
+	          	  	cliente.estado = informacionServicio.precio;
+					servicio.save(function(err){
+					  if (err) {
+					  	console.log(err);
+					    return next(err);
+					  }
+					  return res.json(servicio);
+					});
+	          }       
+	});
+};
+
+exports.cambiarEstadoProveedor = function(req, res){
+	var informacionServicio = req.body.informacionServicio;
+	Servicio.findOne({usuario: req.params.usuario}, function(err, servicio){
+	          if (err) {
+	              return next(err);
+	          } else {
+	          		var proveedor;
+	          		for(var x in servicio.cliente){
+	          			if(servicio.cliente[x].proveedor == req.body.proveedor){
+	          				proveedor = servicio.cliente[x];
+	          			}
+	          		}
+	          	  	proveedor.estado = informacionServicio.estado;
+	          	  	proveedor.precio = informacionServicio.precio;
+					servicio.save(function(err){
+					  if (err) {
+					  	console.log(err);
+					    return next(err);
+					  }
+					  return res.json(servicio);
+					});
 	          }       
 	});
 };

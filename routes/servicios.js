@@ -16,7 +16,7 @@ router.use(methodOverride(function(req, res){
       }
 }));
 
-router.route('/')
+router.route('/:usuario')
   .post(servicios.crearServicio);
 
 router.route('/cliente/:usuario')
@@ -26,5 +26,11 @@ router.route('/cliente/:usuario')
 router.route('/proveedor/:usuario')
   .get(servicios.getServiciosProveedor)
   .post(servicios.adicionarCliente);  
+
+router.route('/cliente/estado/:usuario')
+  .post(servicios.cambiarEstadoCliente);
+
+router.route('/proveedor/estado/:usuario')
+  .post(servicios.cambiarEstadoProveedor);  
 
 module.exports = router;

@@ -5,8 +5,8 @@ var mongoose = require('mongoose'),
 
 var ServicioSchema = new Schema({
 	usuario:String,
-	cliente:[{proveedor: String, tipoServicio: String}],
-	proveedor:[{cliente: String, tipoServicio: String}],
+	cliente:[{proveedor: String, tipoServicio: String, estado: String}],
+	proveedor:[{cliente: String, tipoServicio: String, estado: String}],
 });
 
 mongoose.model('Servicio', ServicioSchema);
