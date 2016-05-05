@@ -32,6 +32,8 @@ var UsuarioSchema = new Schema({
 	apellido:String,
 	servicio:String,
 	disponibilidad:Boolean,
+	telefono:String,
+	direccion:String
 });
 
 //Usar un middleware pre-save para hash la contraseña

@@ -79,14 +79,14 @@ exports.cambiarEstadoCliente = function(req, res){
 	          if (err) {
 	              return next(err);
 	          } else {
-	          		var cliente;
-	          		for(var x in servicio.proveedor){
-	          			if(servicio.proveedor[x].cliente == req.body.cliente){
-	          				cliente = servicio.proveedor[x];
+	          		var proveedor;
+	          		for(var x in servicio.cliente){
+	          			if(servicio.cliente[x].proveedor == informacionServicio.proveedor){
+	          				proveedor = servicio.proveedor[x];
 	          			}
 	          		}
-	          	  	cliente.estado = informacionServicio.estado;
-	          	  	cliente.estado = informacionServicio.precio;
+	          	  	proveedor.estado = informacionServicio.estado;
+	          	  	proveedor.precio = informacionServicio.precio;
 					servicio.save(function(err){
 					  if (err) {
 					  	console.log(err);
@@ -104,14 +104,14 @@ exports.cambiarEstadoProveedor = function(req, res){
 	          if (err) {
 	              return next(err);
 	          } else {
-	          		var proveedor;
-	          		for(var x in servicio.cliente){
-	          			if(servicio.cliente[x].proveedor == req.body.proveedor){
-	          				proveedor = servicio.cliente[x];
+	          		var cliente;
+	          		for(var x in servicio.proveedor){
+	          			if(servicio.proveedor[x].cliente == informacionServicio.cliente){
+	          				cliente = servicio.cliente[x];
 	          			}
 	          		}
-	          	  	proveedor.estado = informacionServicio.estado;
-	          	  	proveedor.precio = informacionServicio.precio;
+	          	  	cliente.estado = informacionServicio.estado;
+	          	  	cliente.precio = informacionServicio.precio;
 					servicio.save(function(err){
 					  if (err) {
 					  	console.log(err);
